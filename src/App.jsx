@@ -25,7 +25,6 @@ function setList(list) {
 
 const Row = ({ label, checked, id, handleChange }) => {
   const renders = useRef(0);
-  console.log('renders.current', renders.current)
 
   return (
     <div>
@@ -42,10 +41,6 @@ const Row = ({ label, checked, id, handleChange }) => {
 };
 
 const List = ({ list }) => {
-  if (list.length === 0) {
-    return <div>LOADING...</div>;
-  }
-
   const [localList, setLocalList] = useState(null);
 
   const handleChange = (id) => {
@@ -60,7 +55,11 @@ const List = ({ list }) => {
 
   useEffect(() => {
     setLocalList(list);
-  }, []);
+  }, [list]);
+
+  if (list.length === 0) {
+    return <div>LOADING...</div>;
+  }
 
   return (
     <>
@@ -85,7 +84,6 @@ const Test = () => {
     <div className="test">
       <h1>Test</h1>
       <List list={listRow} />
-      {console.log('listRow', listRow)}
     </div>
   );
 };
@@ -126,6 +124,7 @@ function setList(list) {
 
 const Row = memo(function Row({ label, checked, id, handleChange }) {
   const renders = useRef(0)
+
   return (
     <div>
       {label}
@@ -141,11 +140,8 @@ const Row = memo(function Row({ label, checked, id, handleChange }) {
 });
 
 const List = ({ list }) => {
-  if (list.length === 0) {
-    return <div>LOADING...</div>;
-  }
-  const [localList, setLocalList] = useState(null);
-
+  const [localList, setLocalList] = useState([]);
+  
   const handleChange = useCallback((id) => {
     setLocalList((prev) =>
       prev.map((item) =>
@@ -158,7 +154,11 @@ const List = ({ list }) => {
 
   useEffect(() => {
     setLocalList(list);
-  }, []);
+  }, [list]);
+
+  if (list.length === 0) {
+    return <div>LOADING...</div>;
+  }
 
   return (
     <>
@@ -183,7 +183,6 @@ const Test = () => {
     <div className="test">
       <h1>Test</h1>
       <List list={listRow} />
-      {console.log('listRow', listRow)}
     </div>
   );
 };
