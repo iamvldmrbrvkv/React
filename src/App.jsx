@@ -28,14 +28,14 @@ function getList() {
     }, 1000);
   });
 }
-
+// не нужная функция
 function setList(list) {
   //Код функции не требует изменений
 }
 
 const Row = (props) => {
   const renders = useRef(0);
-
+  // дублированная не нужная функция
   const handleChange = (id) => {
     props.handleChange(id);
   };
@@ -60,17 +60,17 @@ const List = ({ list }) => {
   if (list.length === 0) {
     return <div>LOADING...</div>;
   }
-
+  // все эффекты должны быть на верхнем уровне компонента до ретернов
   const [localList, setLocalList] = useState(null);
-
+  // мутируем стейт что не допустимо
   const handleChange = (id) => {
     localList[id].checked = !localList[id].checked;
   };
-
+  // не нужный эффект
   useEffect(() => {
     setList(localList);
   });
-
+  // нет зависимости list в эффекте, соответвенно будет каждый раз запускаться и ререндерить компонент List
   useEffect(() => {
     setLocalList(list);
   });
@@ -124,10 +124,6 @@ function getList() {
       );
     }, 1000);
   });
-}
-
-function setList(list) {
-  //Код функции не требует изменений
 }
 
 const Row = ({ label, checked, id, handleChange }) => {
@@ -201,7 +197,7 @@ export default Test;
 // задание со звездочкой
 
 /* Решение
-1. Обернуть handleChange в useCallback чтобы кешировать фукнцию, так как при изменении стейта localList происходил ререндер компонента List и фунция handleChange создавалась заново
+1. Обернуть handleChange в useCallback чтобы кешировать функцию, так как при изменении стейта localList происходил ререндер компонента List и функция handleChange создавалась заново
 2. Обернуть в memo компонент Row чтобы перерисовке родительского компонента List ререндерились только те компоненты Row которые получили новые пропсы, в нашем случае новым пропсом может быть только checked
 3. Так как мы передаем handleChange как пропс в Row, этот пропс вызывал бы перерисовку всех Row, но мы ее кешировали с помошью useCallback это будет одна и та же неизменная handleChange которая не приведет к ререндеру Row */
 
@@ -223,10 +219,6 @@ function getList() {
       );
     }, 1000);
   });
-}
-
-function setList(list) {
-  //Код функции не требует изменений
 }
 
 const Row = memo(function Row({ label, checked, id, handleChange }) {
